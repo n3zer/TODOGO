@@ -14,7 +14,9 @@ namespace TODOGO
         private Dictionary<string, Page> _appPages = new Dictionary<string, Page>
         {
             {"Home",  new HomePage()},
-            {"Settings",  new SettingPage()}
+            {"Settings",  new SettingPage()},
+            {"Tasks",  new TasksPage()},
+            {"Calendar",  new CalendarPage()}
         };
         public Page CurrentPage { get; set; }
 
@@ -35,7 +37,7 @@ namespace TODOGO
 
         public AppViewModel()
         {
-            CurrentPage = _appPages["Settings"];
+            CurrentPage = _appPages["Home"];
         }
     }
 }

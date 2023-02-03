@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage"
-      Background="#ecf0f1">
+      >
 
     <Page.DataContext>
         <local:HomePageViewModel/>
@@ -60,7 +60,7 @@
               Margin="10">
             <Border CornerRadius="10" Background="White"/>
             <Label Margin="15,15,15,0"
-                Content="Tasks:" 
+                Content="Задачи:" 
                 FontSize="40"
                 FontFamily="Bahnschrift SemiBold SemiCondensed"/>
 

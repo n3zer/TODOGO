@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:TODOGO"
         mc:Ignorable="d"
         Title="ToDoGo" 
-        Height="450" Width="800">
+        Height="450" Width="800"
+        MinHeight="450" MinWidth="800">
     <Window.DataContext>
         <local:AppViewModel/>
     </Window.DataContext>
@@ -75,7 +76,7 @@
                                 Margin="13,0,0,0">
 
                                 <TextBlock x:Name="Content"
-					            Text="Home" 
+					            Text="Главная" 
 					            Foreground="White" 
 					            FontFamily="Bahnschrift Light SemiCondensed" 
 					            FontSize="30" 
@@ -100,7 +101,7 @@
                                 Margin="13,0,0,0">
 
                                 <TextBlock
-					            Text="Tasks" 
+					            Text="Задачи" 
 					            Foreground="White" 
 					            FontFamily="Bahnschrift Light SemiCondensed" 
 					            FontSize="30" 
@@ -125,7 +126,7 @@
                                 Margin="13,0,0,0">
 
                                 <TextBlock
-					            Text="Calendar" 
+					            Text="Календарь" 
 					            Foreground="White" 
 					            FontFamily="Bahnschrift Light SemiCondensed" 
 					            FontSize="30" 
@@ -150,7 +151,7 @@
                                 Margin="13,0,0,0">
 
                                 <TextBlock
-					            Text="Settings" 
+					            Text="Настройки" 
 					            Foreground="White" 
 					            FontFamily="Bahnschrift Light SemiCondensed" 
 					            FontSize="30" 
