@@ -1,0 +1,172 @@
+﻿<Window x:Class="TODOGO.MainWindow"
+        x:Name="Root"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TODOGO"
+        mc:Ignorable="d"
+        Title="ToDoGo" 
+        Height="450" Width="800">
+    <Window.DataContext>
+        <local:AppViewModel/>
+    </Window.DataContext>
+    <Grid Background="#ecf0f1">
+        <StackPanel Background="#ff4d4d" x:Name="SideMenu"
+                    Width="40" HorizontalAlignment="Left"
+                    Panel.ZIndex="60">
+            <Grid Height="90">
+                <ToggleButton Height="30" Width="30"
+                              BorderThickness="0"
+                              Margin="5,0,0,0" HorizontalAlignment="Left"
+                              x:Name="openSudeMenuBtn"
+                              Style="{StaticResource ShowMenuBtn}"
+                              IsTabStop="False">
+                    <ToggleButton.Background>
+                        <VisualBrush Visual="{StaticResource threeBars}"/>
+                    </ToggleButton.Background>
+                    <ToggleButton.Triggers>
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="ShowSideMenu">
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="SideMenu"
+                                        Storyboard.TargetProperty="Width"
+                                        BeginTime="0:0:0"
+                                        Duration="0:0:0.15"
+                                        From="40" To="230"
+                                        />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="HideSideMenu">
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="SideMenu"
+                                        Storyboard.TargetProperty="Width"
+                                        BeginTime="0:0:0"
+                                        Duration="0:0:0.15"
+                                        From="230" To="40"
+                                        />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ToggleButton.Triggers>
+                </ToggleButton>
+
+                <Label Content="ToDoGO" 
+                       Margin="50,0,0,0" Foreground="White" 
+                       FontFamily="Bahnschrift SemiLight SemiCondensed" 
+                       FontSize="36" Height="45"/>
+            </Grid>
+            <!--Menu elements-->
+            <StackPanel>
+                <Button Style="{StaticResource SideBtnStyle}"
+                        Background="Transparent"
+                        Command="{Binding ChangePage}" CommandParameter="Home">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal"
+                                    Style="{StaticResource SideBtnStackStyle}"
+							        Width="230">
+                            <ContentPresenter
+                                Content="{StaticResource home}" Width="30"/>
+                            <Border BorderBrush="{x:Null}" Height="45"		
+                                Margin="13,0,0,0">
+
+                                <TextBlock x:Name="Content"
+					            Text="Home" 
+					            Foreground="White" 
+					            FontFamily="Bahnschrift Light SemiCondensed" 
+					            FontSize="30" 
+					            TextWrapping="Wrap"
+					            VerticalAlignment="Bottom"/>
+
+                            </Border>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <!--Tasks-->
+                <Button Style="{StaticResource SideBtnStyle}"
+                        Background="Transparent"
+                        Command="{Binding ChangePage}" CommandParameter="Tasks">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal"
+                                    Style="{StaticResource SideBtnStackStyle}"
+							        Width="230">
+                            <ContentPresenter
+                                Content="{StaticResource checkbox}" Width="30"/>
+                            <Border BorderBrush="{x:Null}" Height="45"		
+                                Margin="13,0,0,0">
+
+                                <TextBlock
+					            Text="Tasks" 
+					            Foreground="White" 
+					            FontFamily="Bahnschrift Light SemiCondensed" 
+					            FontSize="30" 
+					            TextWrapping="Wrap"
+					            VerticalAlignment="Bottom"/>
+
+                            </Border>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <!--Calendar-->
+                <Button Style="{StaticResource SideBtnStyle}"
+                        Background="Transparent"
+                        Command="{Binding ChangePage}" CommandParameter="Calendar">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal"
+                                    Style="{StaticResource SideBtnStackStyle}"
+							        Width="230">
+                            <ContentPresenter
+                                Content="{StaticResource calendar}" Width="30"/>
+                            <Border BorderBrush="{x:Null}" Height="45"		
+                                Margin="13,0,0,0">
+
+                                <TextBlock
+					            Text="Calendar" 
+					            Foreground="White" 
+					            FontFamily="Bahnschrift Light SemiCondensed" 
+					            FontSize="30" 
+					            TextWrapping="Wrap"
+					            VerticalAlignment="Bottom"/>
+
+                            </Border>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <!--Setting-->
+                <Button Style="{StaticResource SideBtnStyle}"
+                        Background="Transparent"
+                        Command="{Binding ChangePage}" CommandParameter="Settings">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal"
+                                    Style="{StaticResource SideBtnStackStyle}"
+							        Width="230">
+                            <ContentPresenter
+                                Content="{StaticResource gear}" Width="30"/>
+                            <Border BorderBrush="{x:Null}" Height="45"		
+                                Margin="13,0,0,0">
+
+                                <TextBlock
+					            Text="Settings" 
+					            Foreground="White" 
+					            FontFamily="Bahnschrift Light SemiCondensed" 
+					            FontSize="30" 
+					            TextWrapping="Wrap"
+					            VerticalAlignment="Bottom"/>
+
+                            </Border>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            
+
+        </StackPanel>
+        <Frame Margin="50,20,30,20"
+               IsTabStop="False"
+               Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

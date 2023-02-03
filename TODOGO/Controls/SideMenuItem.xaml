@@ -1,0 +1,55 @@
+﻿<Button x:Class="TODOGO.SideMenuItem"
+        x:Name="Me"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+		xmlns:local="clr-namespace:TODOGO"
+		mc:Ignorable="d" 
+        Width="230"
+        IsTabStop="False"
+        Background="Transparent"
+        BorderThickness="0">
+    <Button.Content>
+        <StackPanel Orientation="Horizontal"
+							Width="230">
+            <ContentPresenter
+            Content="{Binding ElementName=Me, Path=Icon}" Width="30"/>
+            <Border BorderBrush="{x:Null}" Height="45"		
+                Margin="13,0,0,0">
+
+                <TextBlock x:Name="Content"
+					Text="{Binding ElementName=Me, Path=TextContent}" 
+					Foreground="White" 
+					FontFamily="Bahnschrift Light SemiCondensed" 
+					FontSize="30" 
+					TextWrapping="Wrap"
+					VerticalAlignment="Bottom"/>
+
+            </Border>
+        </StackPanel>
+    </Button.Content>
+
+    <Button.Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#eb4d4b" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Button.Style>
+
+
+
+
+</Button>
