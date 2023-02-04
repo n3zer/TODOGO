@@ -60,7 +60,7 @@
               Margin="10">
             <Border CornerRadius="10" Background="White"/>
             <Label Margin="15,15,15,0"
-                Content="Задачи:" 
+                Content="Сегодня:" 
                 FontSize="40"
                 FontFamily="Bahnschrift SemiBold SemiCondensed"/>
 

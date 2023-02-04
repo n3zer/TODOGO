@@ -7,9 +7,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CalendarPage">
-    <Page.Resources>
-
-    </Page.Resources>
+    <Page.DataContext>
+        <local:CalendarPageViewModel/>
+    </Page.DataContext>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,15 +30,25 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--Day Settings-->
-            <Grid Height="60" Background="#e74c3c" Panel.ZIndex="1">
-                <ListBox Background="Transparent" BorderThickness="0">
-
-                </ListBox>
+            <Grid Background="#ff4d4d" 
+                  Grid.Row="0">
+                
+                <Label Content="{Binding ElementName=CalendarView,
+                    Path=SelectedDate}"
+                       VerticalAlignment="Center"
+                       Foreground="White" 
+                       FontSize="30"
+                       Margin="5"
+                       FontFamily="Bahnschrift SemiBold SemiCondensed"/>
             </Grid>
-
-
-            <Border CornerRadius="0,0,10,10" Background="White" Grid.Row="1"/>
+            
+            <!--Tasks-->
+            <Grid Grid.Row="1">
+                <ListBox></ListBox>
+            </Grid>
+        
+            <Border CornerRadius="0,0,10,10" Background="White" 
+                    Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="-1"/>
             <Grid.Effect>
                 <DropShadowEffect Color="#FFA9A6A6" BlurRadius="10"/>
             </Grid.Effect>
@@ -57,8 +67,11 @@
 
                 <Viewbox Stretch="Uniform">
 
-                    <Calendar CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle}" BorderThickness="0"
-                        CalendarItemStyle="{DynamicResource CalendarCalendarItemStyle}" BorderBrush="{x:Null}" Background="{x:Null}"/>
+                    <Calendar x:Name="CalendarView"
+                              SelectedDate="{Binding CurrentDate}"
+                              IsTodayHighlighted="false"
+                              CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle}" BorderThickness="0"
+                              CalendarItemStyle="{DynamicResource CalendarCalendarItemStyle}" BorderBrush="{x:Null}" Background="{x:Null}"/>
                 </Viewbox>
             </Grid>
 
