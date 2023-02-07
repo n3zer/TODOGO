@@ -44,7 +44,7 @@
             
             <!--Tasks-->
             <Grid Grid.Row="1">
-                <ListBox></ListBox>
+                <ListBox Background="Transparent" BorderThickness="0"></ListBox>
             </Grid>
         
             <Border CornerRadius="0,0,10,10" Background="White" 

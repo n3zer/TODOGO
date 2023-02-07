@@ -8,16 +8,13 @@ namespace TODOGO
 {
     public class HomePageViewModel : ViewModelBase
     {
-        public ObservableCollection<TaskViewModel> Tasks { get; set; }
-
+        public List<TaskViewModel> Tasks { get; set; }
+        
         public HomePageViewModel()
         {
-            Tasks = new ObservableCollection<TaskViewModel>()
-            {
-                new TaskViewModel(){ Name = "Clear home", Description="For my mom", IsComplete=false},
-                new TaskViewModel(){ Name = "Do homework", Description="For my mom", IsComplete=false},
-                new TaskViewModel(){ Name = "Send email to Max", Description="For my mom", IsComplete=false},
-            };
+            Tasks = SavesMenager.ReadFromJsonFile<List<TaskViewModel>>();
+
+            
 
         }
     }
