@@ -71,6 +71,7 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
+                        
                         <Grid Height="35" Margin="5,0,5,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -81,7 +82,8 @@
                                 Grid.Column="0"
                                 Text="{Binding Name}" 
                                 FontSize="25"/>
-                            <Button Width="30" Height="30" Grid.Column="1" Margin="0,0,-9,0">
+                            <Button Width="30" Height="30" Grid.Column="1" Margin="0,0,-9,0"
+                                    Command="{Binding CompleteTask}">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Path VerticalAlignment="Center" Stretch="Fill" x:Name="ButtonPath" HorizontalAlignment="Center" Fill="#e74c3c" Data="{Binding Data, Source={StaticResource check-circle-fill}}"/>
@@ -94,16 +96,28 @@
                                 </Button.Template>
 
                             </Button>
-                            
+
 
                         </Grid>
-
                     </DataTemplate>
-
                 </ListBox.ItemTemplate>
-
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsComplete}"
+                             Value="true">
+                                <Setter Property="ListBoxItem.Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <ToolTip>
+                                    <TextBlock Text="{Binding Description}"/>
+                                </ToolTip>
+                            </Setter.Value>
+                        </Setter>
+                        
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                         <Setter Property="Template">
                             <Setter.Value>

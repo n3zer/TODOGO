@@ -3,7 +3,7 @@ using System;
 
 namespace TODOGO
 {
-    public class CalendarPageViewModel
+    public class CalendarPageViewModel : ViewModelBase
     {
         public DateTime CurrentDate { get; set; }
 

@@ -21,6 +21,8 @@ namespace TODOGO
 
         public static T ReadFromJsonFile<T>()
         {
+            if (!File.Exists(filePath))
+                SaveToJsonFile<List<TaskViewModel>>(new List<TaskViewModel> { new TaskViewModel() });
             string json = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<T>(json);
         }
