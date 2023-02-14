@@ -3,13 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:TODOGO"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CalendarPage">
-    <Page.DataContext>
-        <local:CalendarPageViewModel/>
-    </Page.DataContext>
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -32,9 +31,8 @@
 
             <Grid Background="#ff4d4d" 
                   Grid.Row="0">
-                
-                <Label Content="{Binding ElementName=CalendarView,
-                    Path=SelectedDate}"
+
+                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='dd.MM.yyyy'}"
                        VerticalAlignment="Center"
                        Foreground="White" 
                        FontSize="30"
@@ -68,7 +66,7 @@
                 <Viewbox Stretch="Uniform">
 
                     <Calendar x:Name="CalendarView"
-                              SelectedDate="{Binding CurrentDate}"
+                              SelectedDate="{Binding CalendarPage.CurrentDate}"
                               IsTodayHighlighted="false"
                               CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle}" BorderThickness="0"
                               CalendarItemStyle="{DynamicResource CalendarCalendarItemStyle}" BorderBrush="{x:Null}" Background="{x:Null}"/>

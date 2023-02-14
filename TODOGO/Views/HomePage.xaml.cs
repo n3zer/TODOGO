@@ -8,9 +8,10 @@ namespace TODOGO
     /// </summary>
     public partial class HomePage : Page
     {
-        public HomePage()
+        public HomePage(AppViewModel dc)
         {
             InitializeComponent();
+            DataContext = dc;
         }
 
     }
