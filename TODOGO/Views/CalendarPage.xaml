@@ -30,19 +30,88 @@
             </Grid.RowDefinitions>
 
             <Grid Background="#ff4d4d" 
-                  Grid.Row="0">
+                  Grid.Row="0" Height="40">
+                <DatePicker Style="{DynamicResource DatePickerStyle}" SelectedDate="{x:Static sys:DateTime.Now}"
+                            VerticalAlignment="Center"
+                            x:Name="DatePickerTasks"
+                            HorizontalAlignment="Left"
+                            Margin="10,0,0,0"
+                            Background="Transparent" Width="172">
+                   
 
-                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='dd.MM.yyyy'}"
-                       VerticalAlignment="Center"
-                       Foreground="White" 
-                       FontSize="30"
-                       Margin="5"
-                       FontFamily="Bahnschrift SemiBold SemiCondensed"/>
+                </DatePicker>
             </Grid>
             
             <!--Tasks-->
             <Grid Grid.Row="1">
-                <ListBox Background="Transparent" BorderThickness="0"></ListBox>
+                <ListBox Background="Transparent" BorderThickness="0"
+                         ItemsSource="{Binding Tasks}"
+                         SelectedItem="{Binding SelectedTask}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="35" Margin="5,0,5,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+
+                                </Grid.ColumnDefinitions>
+                                <TextBlock 
+                                Grid.Column="0"
+                                Text="{Binding Name}" 
+                                FontSize="25"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsComplete}" Value="true">
+                                    <Setter Property="ListBoxItem.Foreground" Value="Gray"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <ToolTip>
+                                        <TextBlock Text="{Binding Description}"/>
+                                    </ToolTip>
+                                </Setter.Value>
+                            </Setter>
+
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Grid>
+                                            <Border Background="{TemplateBinding Background}"
+                                                CornerRadius="15"/>
+                                            <ContentPresenter
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Content="{TemplateBinding Content}"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                Margin="{TemplateBinding Padding}">
+                                            </ContentPresenter>
+
+                                        </Grid>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#ecf0f1" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="#ecf0f1" />
+                                            </Trigger>
+
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <Button Content="Add" VerticalAlignment="Bottom"
+                        Command="{Binding AddTask}"/>
             </Grid>
         
             <Border CornerRadius="0,0,10,10" Background="White" 
@@ -56,22 +125,34 @@
         <Grid Grid.Row="0" Grid.Column="3"
               Grid.ColumnSpan="1" Grid.RowSpan="2"
               Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <!--Calendar-->
-            <Grid Grid.Row="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10,10,10,10" VerticalAlignment="Stretch">
+                    <Label Style="{DynamicResource ChangeLabel}" Content="Название:" />
+                    <TextBox Text="{Binding SelectedTask.Name}" Style="{DynamicResource ChangeTextBox}"/>
 
-                <Viewbox Stretch="Uniform">
+                    <Label Style="{DynamicResource ChangeLabel}" Content="Описание:" />
+                    <TextBox Text="{Binding SelectedTask.Description}" Style="{DynamicResource ChangeTextBox}"/>
 
-                    <Calendar x:Name="CalendarView"
-                              SelectedDate="{Binding CalendarPage.CurrentDate}"
-                              IsTodayHighlighted="false"
-                              CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle}" BorderThickness="0"
-                              CalendarItemStyle="{DynamicResource CalendarCalendarItemStyle}" BorderBrush="{x:Null}" Background="{x:Null}"/>
-                </Viewbox>
-            </Grid>
+
+                    <Label Style="{DynamicResource ChangeLabel}" Content="Дата:" />
+                    <DatePicker SelectedDate="{Binding SelectedTask.Day}"/>
+
+                    <Label Style="{DynamicResource ChangeLabel}" Content="Время:" />
+                    <DatePicker/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Style="{DynamicResource ChangeLabel}" Content="Завершено:" />
+                        <CheckBox IsChecked="{Binding SelectedTask.IsComplete}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    
+                    <Button Content="Удалить" VerticalAlignment="Bottom" Height="40"
+                            Command="{Binding RemoveTask}"
+                            Style="{DynamicResource ChangeButton}"/>
+                </StackPanel>
+                
+                
+            </ScrollViewer>
+            
 
             <Border CornerRadius="10" Background="White" Grid.RowSpan="2" Panel.ZIndex="-1"/>
             <Grid.Effect>

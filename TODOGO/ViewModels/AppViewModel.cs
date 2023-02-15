@@ -4,6 +4,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Linq;
 using System.ComponentModel;
+using System;
+using System.Windows;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace TODOGO
 {
@@ -28,14 +32,44 @@ namespace TODOGO
             }
         }
 
+       
 
-        public List<TaskViewModel> Tasks { get; set; }
-        
+        public ObservableCollection<TaskViewModel> Tasks { get; set; }
+        public TaskViewModel SelectedTask { get; set; }
+
+
+        public ICommand RemoveTask
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    if (SelectedTask != null)
+                        Tasks.Remove(SelectedTask);
+                });
+
+            }
+        }
+
+        public ICommand AddTask
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    TaskViewModel task = new TaskViewModel() {Day=DateTime.Now};
+                    Tasks.Insert(0, task);
+                    SelectedTask = task;
+                });
+
+            }
+        }
+
         public ICommand SaveTasks
         {
             get
             {
-                return new DelegateCommand<CancelEventArgs>((x) =>
+                return new DelegateCommand(() =>
                 {
                     SavesMenager.SaveToJsonFile(Tasks);
                 });
@@ -44,12 +78,11 @@ namespace TODOGO
         }
 
 
-        public CalendarPageViewModel CalendarPage { get; set; } = new CalendarPageViewModel();
 
 
         public AppViewModel()
         {
-            Tasks = SavesMenager.ReadFromJsonFile<List<TaskViewModel>>();
+            Tasks = SavesMenager.ReadFromJsonFile<ObservableCollection<TaskViewModel>>();
             _appPages = new Dictionary<string, Page>
             {
                 {"Home",  new HomePage(this)},

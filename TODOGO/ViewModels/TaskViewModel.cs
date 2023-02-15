@@ -17,7 +17,7 @@ namespace TODOGO
 
 
         [JsonProperty("Day")]
-        public DateOnly Day { get; set; }
+        public DateTime Day { get; set; }
 
 
         [JsonProperty("Time")]

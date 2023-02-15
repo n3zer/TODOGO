@@ -13,5 +13,6 @@ namespace TODOGO
             InitializeComponent();
             DataContext = dc;
         }
+
     }
 }
