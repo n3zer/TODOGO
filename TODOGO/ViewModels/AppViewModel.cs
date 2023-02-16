@@ -8,6 +8,8 @@ using System;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Globalization;
 
 namespace TODOGO
 {
@@ -25,7 +27,6 @@ namespace TODOGO
                     if (_appPages.Keys.Contains(x))
                     {
                         CurrentPage = _appPages[x];
-
                     }
                 });
 
@@ -35,8 +36,56 @@ namespace TODOGO
        
 
         public ObservableCollection<TaskViewModel> Tasks { get; set; }
-        public TaskViewModel SelectedTask { get; set; }
 
+
+        // pages vm
+        public HomeViewModel HomeVM { get; set; }
+        public CalendarViewModel CalendarVM { get; set; }
+
+
+        
+        
+
+        // для выноса за предела класса 
+        public ICommand DisableFilterTasksDate
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    if (!CalendarVM.ApplyFilter)
+                        CalendarVM.FilterTasks = Tasks;
+                    else
+                        FilterTasksDate.Execute(CalendarVM.SelectedDate.Date);
+                });
+
+            }
+        }
+        public ICommand FilterTasksDate
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    CalendarVM.ApplyFilter = true;
+                    CalendarVM.FilterTasks = TaskManager.GetTasksByDate(CalendarVM.SelectedDate.Date, Tasks);
+                });
+
+            }
+        }
+
+        public ICommand CheckEmptyTasks
+        {
+            get
+            {
+                return new DelegateCommand(() =>
+                {
+                    Tasks.ClearEmptyTask(CalendarVM.SelectedTask);
+                });
+
+            }
+        }
+        
 
         public ICommand RemoveTask
         {
@@ -44,8 +93,8 @@ namespace TODOGO
             {
                 return new DelegateCommand(() =>
                 {
-                    if (SelectedTask != null)
-                        Tasks.Remove(SelectedTask);
+                    if (CalendarVM.SelectedTask != null)
+                        Tasks.Remove(CalendarVM.SelectedTask);
                 });
 
             }
@@ -57,9 +106,9 @@ namespace TODOGO
             {
                 return new DelegateCommand(() =>
                 {
-                    TaskViewModel task = new TaskViewModel() {Day=DateTime.Now};
+                    TaskViewModel task = new TaskViewModel() {Day=DateTime.Now.Date};
                     Tasks.Insert(0, task);
-                    SelectedTask = task;
+                    CalendarVM.SelectedTask = task;
                 });
 
             }
@@ -83,6 +132,16 @@ namespace TODOGO
         public AppViewModel()
         {
             Tasks = SavesMenager.ReadFromJsonFile<ObservableCollection<TaskViewModel>>();
+
+            HomeVM = new HomeViewModel(Tasks);
+            CalendarVM = new CalendarViewModel();
+
+            
+            CalendarVM.FilterTasks = Tasks;
+            CalendarVM.SelectedDate = DateTime.Now;
+
+            
+
             _appPages = new Dictionary<string, Page>
             {
                 {"Home",  new HomePage(this)},

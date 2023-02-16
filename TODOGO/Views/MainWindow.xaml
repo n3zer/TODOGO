@@ -16,7 +16,8 @@
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding SaveTasks}" CommandParameter="{Binding}" />
+            <i:InvokeCommandAction Command="{Binding CheckEmptyTasks}" />
+            <i:InvokeCommandAction Command="{Binding SaveTasks}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid Background="#ecf0f1">
@@ -175,6 +176,7 @@
         </StackPanel>
         <Frame Margin="50,20,30,20"
                IsTabStop="False"
-               Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
+               Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden">
+        </Frame>
     </Grid>
 </Window>

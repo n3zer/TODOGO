@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
-      xmlns:local="clr-namespace:TODOGO"
+      d:DataContext="{d:DesignInstance Type=local:AppViewModel}"
+      xmlns:local="clr-namespace:TODOGO" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CalendarPage">
@@ -31,22 +32,43 @@
 
             <Grid Background="#ff4d4d" 
                   Grid.Row="0" Height="40">
-                <DatePicker Style="{DynamicResource DatePickerStyle}" SelectedDate="{x:Static sys:DateTime.Now}"
+                <DockPanel>
+                    <DatePicker Style="{DynamicResource DatePickerStyle}"
                             VerticalAlignment="Center"
                             x:Name="DatePickerTasks"
                             HorizontalAlignment="Left"
                             Margin="10,0,0,0"
+                            SelectedDate="{Binding CalendarVM.SelectedDate}"
                             Background="Transparent" Width="172">
-                   
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedDateChanged">
+                                <i:InvokeCommandAction Command="{Binding FilterTasksDate}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DatePicker>
 
-                </DatePicker>
+                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CalendarVM.ApplyFilter}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DisableFilterTasksDate}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </CheckBox>
+                </DockPanel>
+                
             </Grid>
             
             <!--Tasks-->
             <Grid Grid.Row="1">
                 <ListBox Background="Transparent" BorderThickness="0"
-                         ItemsSource="{Binding Tasks}"
-                         SelectedItem="{Binding SelectedTask}">
+                         ItemsSource="{Binding CalendarVM.FilterTasks}"
+                         SelectedItem="{Binding CalendarVM.SelectedTask}" SelectionMode="Single">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding CheckEmptyTasks}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Height="35" Margin="5,0,5,0">
@@ -62,6 +84,7 @@
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Style.Triggers>
@@ -69,7 +92,6 @@
                                     <Setter Property="ListBoxItem.Foreground" Value="Gray"/>
                                 </DataTrigger>
                             </Style.Triggers>
-
                             <Setter Property="ToolTip">
                                 <Setter.Value>
                                     <ToolTip>
@@ -109,8 +131,11 @@
                             </Setter>
                         </Style>
                     </ListBox.ItemContainerStyle>
+                    
                 </ListBox>
                 <Button Content="Add" VerticalAlignment="Bottom"
+                        Height="40"
+                        Style="{StaticResource ChangeButton}"
                         Command="{Binding AddTask}"/>
             </Grid>
         
@@ -128,21 +153,33 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="10,10,10,10" VerticalAlignment="Stretch">
                     <Label Style="{DynamicResource ChangeLabel}" Content="Название:" />
-                    <TextBox Text="{Binding SelectedTask.Name}" Style="{DynamicResource ChangeTextBox}"/>
+                    <TextBox Style="{DynamicResource ChangeTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="CalendarVM.SelectedTask.Name" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <local:EmptyStringValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
 
                     <Label Style="{DynamicResource ChangeLabel}" Content="Описание:" />
-                    <TextBox Text="{Binding SelectedTask.Description}" Style="{DynamicResource ChangeTextBox}"/>
+                    <TextBox Style="{DynamicResource ChangeTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="CalendarVM.SelectedTask.Description" UpdateSourceTrigger="PropertyChanged"/>
+                        </TextBox.Text>
+                    </TextBox>
 
 
                     <Label Style="{DynamicResource ChangeLabel}" Content="Дата:" />
-                    <DatePicker SelectedDate="{Binding SelectedTask.Day}"/>
+                    <DatePicker SelectedDate="{Binding CalendarVM.SelectedTask.Day}"/>
 
                     <Label Style="{DynamicResource ChangeLabel}" Content="Время:" />
                     <DatePicker/>
 
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{DynamicResource ChangeLabel}" Content="Завершено:" />
-                        <CheckBox IsChecked="{Binding SelectedTask.IsComplete}" VerticalAlignment="Center"/>
+                        <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.IsComplete}" VerticalAlignment="Center"/>
                     </StackPanel>
                     
                     <Button Content="Удалить" VerticalAlignment="Bottom" Height="40"
