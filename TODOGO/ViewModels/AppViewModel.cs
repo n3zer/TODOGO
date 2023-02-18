@@ -120,7 +120,7 @@ namespace TODOGO
             {
                 return new DelegateCommand(() =>
                 {
-                    SavesMenager.SaveToJsonFile(Tasks);
+                    SavesMenager.SaveToJsonFile(TaskManager.ClearEmptyTask(Tasks));
                 });
 
             }
@@ -136,6 +136,7 @@ namespace TODOGO
             HomeVM = new HomeViewModel(Tasks);
             CalendarVM = new CalendarViewModel();
 
+            HomeVM.Tasks = Tasks;
             
             CalendarVM.FilterTasks = Tasks;
             CalendarVM.SelectedDate = DateTime.Now;

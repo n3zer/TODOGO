@@ -29,11 +29,10 @@
                               BorderThickness="0"
                               Margin="5,0,0,0" HorizontalAlignment="Left"
                               x:Name="openSudeMenuBtn"
-                              Style="{StaticResource ShowMenuBtn}"
+                              Foreground="White"
+                              Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                               IsTabStop="False">
-                    <ToggleButton.Background>
-                        <VisualBrush Visual="{StaticResource threeBars}"/>
-                    </ToggleButton.Background>
+                    
                     <ToggleButton.Triggers>
                         <EventTrigger RoutedEvent="ToggleButton.Checked">
                             <BeginStoryboard>

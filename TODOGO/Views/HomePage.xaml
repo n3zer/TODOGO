@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
       xmlns:local="clr-namespace:TODOGO" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DataContext="{d:DesignInstance Type=local:AppViewModel}"
       mc:Ignorable="d" 
@@ -26,7 +28,23 @@
         <Grid Grid.Row="0" Grid.Column="0"
               Grid.ColumnSpan="2"
               Margin="10">
-            <Border CornerRadius="10" Background="White"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                
+            </Grid.RowDefinitions>
+
+            <Label 
+                Content="Статистика выполнения:" 
+                FontSize="35"
+                FontFamily="Bahnschrift SemiBold SemiCondensed"/>
+
+            <lvc:CartesianChart Series="{Binding HomeVM.Series}" Grid.Row="1"
+                                XAxes="{Binding HomeVM.AxesDate}"
+                                YAxes="{Binding HomeVM.AxesCount}"/>
+
+            <Border CornerRadius="10" Background="White" Panel.ZIndex="-1"
+                    Grid.RowSpan="2"/>
             <Grid.Effect>
                 <DropShadowEffect Color="#FFA9A6A6" BlurRadius="10"/>
             </Grid.Effect>
@@ -35,7 +53,7 @@
 
         <Grid Grid.Row="1" Grid.Column="0"
               Margin="10">
-            <Border CornerRadius="10" Background="White"/>
+            <Border CornerRadius="10" Background="White" Panel.ZIndex="-1"/>
             <Grid.Effect>
                 <DropShadowEffect Color="#FFA9A6A6" BlurRadius="10"/>
             </Grid.Effect>
@@ -63,7 +81,7 @@
 
             <ListBox BorderThickness="0" 
                      x:Name="TaskListBox"
-                     ItemsSource="{Binding HomeVM.TodayTasks, UpdateSourceTrigger=PropertyChanged}" Margin="15,60,15,0" 
+                     ItemsSource="{Binding HomeVM.Tasks, UpdateSourceTrigger=PropertyChanged}" Margin="15,60,15,0" 
                      VerticalContentAlignment="Stretch"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
@@ -94,7 +112,6 @@
 
                             </Button>
 
-
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -103,6 +120,14 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsComplete}"
                              Value="true">
+                                <Setter Property="ListBoxItem.Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Day}"
+                             Value="{x:Static sys:DateTime.Now}">
+                                <Setter Property="ListBoxItem.Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Name}"
+                             Value="{x:Null}">
                                 <Setter Property="ListBoxItem.Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>

@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       d:DataContext="{d:DesignInstance Type=local:AppViewModel}"
       xmlns:local="clr-namespace:TODOGO" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       mc:Ignorable="d" 
@@ -33,13 +34,22 @@
             <Grid Background="#ff4d4d" 
                   Grid.Row="0" Height="40">
                 <DockPanel>
-                    <DatePicker Style="{DynamicResource DatePickerStyle}"
-                            VerticalAlignment="Center"
-                            x:Name="DatePickerTasks"
-                            HorizontalAlignment="Left"
-                            Margin="10,0,0,0"
-                            SelectedDate="{Binding CalendarVM.SelectedDate}"
-                            Background="Transparent" Width="172">
+                    <DatePicker 
+                        FontSize="25"
+                        VerticalAlignment="Center"
+                        x:Name="DatePickerTasks"
+                        HorizontalAlignment="Left"
+                        Margin="10,0,0,0"
+                        SelectedDate="{Binding CalendarVM.SelectedDate}"
+                        Background="Transparent" Width="172">
+                        <DatePicker.Style>
+                            <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignDatePicker}">
+                                <Setter Property="FontFamily" Value="Bahnschrift Light SemiCondensed"/>
+                                <Setter Property="FontSize" Value="30"/>
+                                
+                            </Style>
+                        </DatePicker.Style>
+                        
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectedDateChanged">
                                 <i:InvokeCommandAction Command="{Binding FilterTasksDate}"/>
@@ -47,7 +57,14 @@
                         </i:Interaction.Triggers>
                     </DatePicker>
 
-                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CalendarVM.ApplyFilter}">
+                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CalendarVM.ApplyFilter}" 
+                              Style="{StaticResource MaterialDesignAccentCheckBox}">
+                        <CheckBox.Resources>
+
+                            <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="White"/>
+
+                            <SolidColorBrush x:Key="MaterialDesignCheckBoxOn" Color="White"/>
+                        </CheckBox.Resources>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding DisableFilterTasksDate}"/>
@@ -92,14 +109,6 @@
                                     <Setter Property="ListBoxItem.Foreground" Value="Gray"/>
                                 </DataTrigger>
                             </Style.Triggers>
-                            <Setter Property="ToolTip">
-                                <Setter.Value>
-                                    <ToolTip>
-                                        <TextBlock Text="{Binding Description}"/>
-                                    </ToolTip>
-                                </Setter.Value>
-                            </Setter>
-
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -133,9 +142,10 @@
                     </ListBox.ItemContainerStyle>
                     
                 </ListBox>
-                <Button Content="Add" VerticalAlignment="Bottom"
+                <Button Content="Создать" VerticalAlignment="Bottom"
                         Height="40"
                         Style="{StaticResource ChangeButton}"
+
                         Command="{Binding AddTask}"/>
             </Grid>
         
@@ -175,7 +185,9 @@
                     <DatePicker SelectedDate="{Binding CalendarVM.SelectedTask.Day}"/>
 
                     <Label Style="{DynamicResource ChangeLabel}" Content="Время:" />
-                    <DatePicker/>
+                    <materialDesign:TimePicker Name="timePicker" 
+                                       Text="" >
+                    </materialDesign:TimePicker>
 
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{DynamicResource ChangeLabel}" Content="Завершено:" />

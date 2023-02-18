@@ -36,7 +36,7 @@
     <Style TargetType="Button" x:Key="ChangeButton">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="30"/>
         <Setter Property="FontFamily" Value="Bahnschrift Light SemiCondensed"/>
         <Setter Property="Template">
             <Setter.Value>
