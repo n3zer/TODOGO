@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TODOGO" 
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="ToDoGo" 
         Height="450" Width="800"
@@ -23,7 +23,7 @@
     <Grid Background="#ecf0f1">
         <StackPanel Background="#ff4d4d" x:Name="SideMenu"
                     Width="40" HorizontalAlignment="Left"
-                    Panel.ZIndex="60">
+                    Panel.ZIndex="100">
             <Grid Height="90">
                 <ToggleButton Height="30" Width="30"
                               BorderThickness="0"
@@ -77,20 +77,16 @@
                         <StackPanel Orientation="Horizontal"
                                     Style="{StaticResource SideBtnStackStyle}"
 							        Width="230">
-                            <ContentPresenter
-                                Content="{StaticResource home}" Width="30"/>
-                            <Border BorderBrush="{x:Null}" Height="45"		
-                                Margin="13,0,0,0">
+                            <materialDesign:PackIcon Kind="Home" Height="45" Width="30"
+                                                     Foreground="White"/>
 
-                                <TextBlock x:Name="Content"
-					            Text="Главная" 
-					            Foreground="White" 
-					            FontFamily="Bahnschrift Light SemiCondensed" 
-					            FontSize="30" 
-					            TextWrapping="Wrap"
-					            VerticalAlignment="Bottom"/>
-
-                            </Border>
+                            <TextBlock Margin="10,0,0,0"
+					                   Text="Главная" 
+					                   Foreground="White" 
+					                   FontFamily="Bahnschrift Light SemiCondensed" 
+					                   FontSize="30" 
+					                   TextWrapping="Wrap"
+					                   VerticalAlignment="Bottom" Height="39"/>    
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -102,20 +98,16 @@
                         <StackPanel Orientation="Horizontal"
                                     Style="{StaticResource SideBtnStackStyle}"
 							        Width="230">
-                            <ContentPresenter
-                                Content="{StaticResource checkbox}" Width="30"/>
-                            <Border BorderBrush="{x:Null}" Height="45"		
-                                Margin="13,0,0,0">
-
-                                <TextBlock
-					            Text="Задачи" 
-					            Foreground="White" 
-					            FontFamily="Bahnschrift Light SemiCondensed" 
-					            FontSize="30" 
-					            TextWrapping="Wrap"
-					            VerticalAlignment="Bottom"/>
-
-                            </Border>
+                            <materialDesign:PackIcon Kind="CheckBox" Height="45" Width="30"
+                                                     Foreground="White"/>
+                            <TextBlock Margin="10,0,0,0"
+					                   Text="Задачи" 
+					                   Foreground="White" 
+					                   FontFamily="Bahnschrift Light SemiCondensed" 
+					                   FontSize="30" 
+					                   TextWrapping="Wrap"
+					                   VerticalAlignment="Bottom" Height="39"/>
+                            
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -127,20 +119,15 @@
                         <StackPanel Orientation="Horizontal"
                                     Style="{StaticResource SideBtnStackStyle}"
 							        Width="230">
-                            <ContentPresenter
-                                Content="{StaticResource calendar}" Width="30"/>
-                            <Border BorderBrush="{x:Null}" Height="45"		
-                                Margin="13,0,0,0">
-
-                                <TextBlock
-					            Text="Календарь" 
-					            Foreground="White" 
-					            FontFamily="Bahnschrift Light SemiCondensed" 
-					            FontSize="30" 
-					            TextWrapping="Wrap"
-					            VerticalAlignment="Bottom"/>
-
-                            </Border>
+                            <materialDesign:PackIcon Kind="Calendar" Height="45" Width="30"
+                                                     Foreground="White"/>
+                            <TextBlock Margin="10,0,0,0"
+					                   Text="Календарь" 
+					                   Foreground="White" 
+					                   FontFamily="Bahnschrift Light SemiCondensed" 
+					                   FontSize="30" 
+					                   TextWrapping="Wrap"
+					                   VerticalAlignment="Bottom" Height="39"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -152,20 +139,15 @@
                         <StackPanel Orientation="Horizontal"
                                     Style="{StaticResource SideBtnStackStyle}"
 							        Width="230">
-                            <ContentPresenter
-                                Content="{StaticResource gear}" Width="30"/>
-                            <Border BorderBrush="{x:Null}" Height="45"		
-                                Margin="13,0,0,0">
-
-                                <TextBlock
-					            Text="Настройки" 
-					            Foreground="White" 
-					            FontFamily="Bahnschrift Light SemiCondensed" 
-					            FontSize="30" 
-					            TextWrapping="Wrap"
-					            VerticalAlignment="Bottom"/>
-
-                            </Border>
+                            <materialDesign:PackIcon Kind="Settings" Height="45" Width="30"
+                                                     Foreground="White"/>
+                            <TextBlock Margin="10,0,0,0"
+					                   Text="Настройки" 
+					                   Foreground="White" 
+					                   FontFamily="Bahnschrift Light SemiCondensed" 
+					                   FontSize="30" 
+					                   TextWrapping="Wrap"
+					                   VerticalAlignment="Bottom" Height="39"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>

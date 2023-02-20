@@ -10,7 +10,16 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CalendarPage">
-
+    <Page.Resources>
+        <ObjectDataProvider MethodName="GetValues"
+                ObjectType="{x:Type sys:Enum}"
+                x:Key="MyEnumValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:TaskTypes" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+    </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -32,60 +41,72 @@
             </Grid.RowDefinitions>
 
             <Grid Background="#ff4d4d" 
-                  Grid.Row="0" Height="40">
-                <DockPanel>
-                    <DatePicker 
-                        FontSize="25"
-                        VerticalAlignment="Center"
-                        x:Name="DatePickerTasks"
-                        HorizontalAlignment="Left"
-                        Margin="10,0,0,0"
-                        SelectedDate="{Binding CalendarVM.SelectedDate}"
-                        Background="Transparent" Width="172">
-                        <DatePicker.Style>
-                            <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignDatePicker}">
-                                <Setter Property="FontFamily" Value="Bahnschrift Light SemiCondensed"/>
-                                <Setter Property="FontSize" Value="30"/>
-                                
-                            </Style>
-                        </DatePicker.Style>
-                        
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectedDateChanged">
-                                <i:InvokeCommandAction Command="{Binding FilterTasksDate}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </DatePicker>
+                  Grid.Row="0">
+                <Menu HorizontalAlignment="Right">
+                    <MenuItem Header="Фильтры"
+                              Foreground="White"
+                              ItemContainerStyleSelector="{x:Null}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="CalendarFilter"/>
+                        </MenuItem.Icon>
+                        <DatePicker
+                            Foreground="Black"
+                            FontSize="20"
+                            x:Name="DatePickerTasks"
+                            HorizontalAlignment="Left"
+                            SelectedDate="{Binding CalendarVM.SelectedDate}"
+                            Background="Transparent">
+                            <DatePicker.Style>
+                                <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignDatePicker}">
+                                    <Setter Property="FontFamily" Value="Bahnschrift Light SemiCondensed"/>
+                                    <Setter Property="FontSize" Value="30"/>
 
-                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CalendarVM.ApplyFilter}" 
-                              Style="{StaticResource MaterialDesignAccentCheckBox}">
-                        <CheckBox.Resources>
+                                </Style>
+                            </DatePicker.Style>
 
-                            <SolidColorBrush x:Key="MaterialDesignCheckBoxOff" Color="White"/>
-
-                            <SolidColorBrush x:Key="MaterialDesignCheckBoxOn" Color="White"/>
-                        </CheckBox.Resources>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding DisableFilterTasksDate}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </CheckBox>
-                </DockPanel>
-                
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectedDateChanged">
+                                    <i:InvokeCommandAction Command="{Binding FilterTasksDate}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </DatePicker>
+                        <CheckBox VerticalAlignment="Center" 
+                                  Content="Применить"
+                                  Foreground="Black"
+                                  IsChecked="{Binding CalendarVM.ApplyFilter}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding DisableFilterTasksDate}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+                        <CheckBox VerticalAlignment="Center" 
+                                  Content="Не выполненные"
+                                  Foreground="Black"
+                                  IsChecked="{Binding CalendarVM.UnfulfilledOnly}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding DisableFilterTasksDate}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+                    </MenuItem>
+                </Menu>
             </Grid>
-            
+
             <!--Tasks-->
             <Grid Grid.Row="1">
                 <ListBox Background="Transparent" BorderThickness="0"
                          ItemsSource="{Binding CalendarVM.FilterTasks}"
-                         SelectedItem="{Binding CalendarVM.SelectedTask}" SelectionMode="Single">
+                         SelectedIndex="1"
+                         SelectedItem="{Binding CalendarVM.SelectedTask}" 
+                         SelectionMode="Single">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding CheckEmptyTasks}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Height="35" Margin="5,0,5,0">
@@ -98,10 +119,16 @@
                                 Grid.Column="0"
                                 Text="{Binding Name}" 
                                 FontSize="25"/>
+                                <TextBlock 
+                                    Grid.Column="1"
+                                    Text="{Binding Date, StringFormat='dd/MM/yyyy'}" 
+                                    FontSize="25">
+                                </TextBlock>
                             </Grid>
+                            
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                    
+
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Style.Triggers>
@@ -115,7 +142,7 @@
                                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                         <Grid>
                                             <Border Background="{TemplateBinding Background}"
-                                                CornerRadius="15"/>
+                                                />
                                             <ContentPresenter
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 Content="{TemplateBinding Content}"
@@ -140,15 +167,14 @@
                             </Setter>
                         </Style>
                     </ListBox.ItemContainerStyle>
-                    
+
                 </ListBox>
                 <Button Content="Создать" VerticalAlignment="Bottom"
                         Height="40"
                         Style="{StaticResource ChangeButton}"
-
                         Command="{Binding AddTask}"/>
             </Grid>
-        
+
             <Border CornerRadius="0,0,10,10" Background="White" 
                     Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="-1"/>
             <Grid.Effect>
@@ -162,8 +188,22 @@
               Margin="10">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="10,10,10,10" VerticalAlignment="Stretch">
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBoxBase}">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                        </Style>
+                        <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignDatePicker}">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                        </Style>
+                        <Style TargetType="materialDesign:TimePicker" BasedOn="{StaticResource MaterialDesignTimePicker}">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                        </Style>
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignComboBox}">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                        </Style>
+                    </StackPanel.Resources>
                     <Label Style="{DynamicResource ChangeLabel}" Content="Название:" />
-                    <TextBox Style="{DynamicResource ChangeTextBox}">
+                    <TextBox FontSize="20" FontFamily="Bahnschrift Light Condensed">
                         <TextBox.Text>
                             <Binding Path="CalendarVM.SelectedTask.Name" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
@@ -174,34 +214,66 @@
                     </TextBox>
 
                     <Label Style="{DynamicResource ChangeLabel}" Content="Описание:" />
-                    <TextBox Style="{DynamicResource ChangeTextBox}">
+                    <TextBox FontSize="20" FontFamily="Bahnschrift Light Condensed">
                         <TextBox.Text>
                             <Binding Path="CalendarVM.SelectedTask.Description" UpdateSourceTrigger="PropertyChanged"/>
                         </TextBox.Text>
                     </TextBox>
 
+                    <StackPanel x:Name="DateSetPanel">
+                        <Label Style="{DynamicResource ChangeLabel}" Content="Дата:" />
+                        <DatePicker SelectedDate="{Binding CalendarVM.SelectedTask.Date}"
+                                FontSize="20" FontFamily="Bahnschrift Light Condensed"/>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CalendarVM.SelectedTask.TaskType}" 
+                                             Value="{x:Static local:TaskTypes.Default}">
+                                        <Setter Property="Visibility"  
+                                            Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
 
-                    <Label Style="{DynamicResource ChangeLabel}" Content="Дата:" />
-                    <DatePicker SelectedDate="{Binding CalendarVM.SelectedTask.Day}"/>
+                
 
                     <Label Style="{DynamicResource ChangeLabel}" Content="Время:" />
-                    <materialDesign:TimePicker Name="timePicker" 
-                                       Text="" >
-                    </materialDesign:TimePicker>
+                    <materialDesign:TimePicker Name="timePicker" Is24Hours="True"
+                                               FontSize="20" FontFamily="Bahnschrift Light Condensed"
+                                               SelectedTime="{Binding CalendarVM.SelectedTask.Time}"/>
 
-                    <StackPanel Orientation="Horizontal">
+
+                    <Label Style="{DynamicResource ChangeLabel}" Content="Режим" />
+                    <ComboBox FontSize="20" FontFamily="Bahnschrift Light Condensed"
+                              ItemsSource="{Binding Source={StaticResource MyEnumValues}}"
+                              SelectedItem="{Binding CalendarVM.SelectedTask.TaskType}"
+                              SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="textWithType"
+                                           Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+
+                    <StackPanel Orientation="Horizontal" Height="50">
                         <Label Style="{DynamicResource ChangeLabel}" Content="Завершено:" />
                         <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.IsComplete}" VerticalAlignment="Center"/>
                     </StackPanel>
-                    
+
                     <Button Content="Удалить" VerticalAlignment="Bottom" Height="40"
                             Command="{Binding RemoveTask}"
                             Style="{DynamicResource ChangeButton}"/>
+                   
                 </StackPanel>
-                
-                
+
+
             </ScrollViewer>
-            
+
 
             <Border CornerRadius="10" Background="White" Grid.RowSpan="2" Panel.ZIndex="-1"/>
             <Grid.Effect>

@@ -21,7 +21,7 @@ namespace TODOGO
 
         public ISeries[] Series { get; set; } 
         public Axis[] AxesDate { get; set; }
-        public Axis[] AxesCount { get; set; }
+        public List<Axis> AxesCount { get; set; }
         public int[] CountFineshedTasks { get; set; }
         public HomeViewModel(ObservableCollection<TaskViewModel> tasks) 
         {
@@ -36,8 +36,7 @@ namespace TODOGO
                     Stroke = new SolidColorPaint(SKColors.Red) { StrokeThickness = 4 },
                     GeometryStroke = new SolidColorPaint(SKColors.OrangeRed) { StrokeThickness = 4 },
                     Fill = null,
-                    Name = "Выполнено"
-
+                    Name = "Выполнено",
                 }
             };
 
@@ -49,13 +48,15 @@ namespace TODOGO
                 }
             };
 
-            AxesCount = new Axis[]
+            AxesCount = new List<Axis>
             {
-                new Axis
-                {
-                    Labels = TaskManager.GetTasksCount(tasks).Select(x => x.ToString()).ToArray()
-                }
+                 new Axis
+                 {
+                        MinStep= 1
+                 }
+
             };
+
 
 
         }

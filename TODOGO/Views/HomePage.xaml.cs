@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 
 namespace TODOGO
@@ -14,5 +15,9 @@ namespace TODOGO
             DataContext = dc;
         }
 
+        private void TaskListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MessageBox.Show("s");
+        }
     }
 }

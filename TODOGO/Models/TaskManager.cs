@@ -15,7 +15,7 @@ namespace TODOGO
         {
             var oc = new ObservableCollection<TaskViewModel>();
             foreach (var item in tasks)
-                if (item.Day == date)
+                if (item.Date == date)
                     oc.Add(item);
             return oc;
         }
@@ -47,7 +47,7 @@ namespace TODOGO
 
         public static void AddTask(this ObservableCollection<TaskViewModel> tasks, out TaskViewModel selectedTask)
         {
-            TaskViewModel task = new TaskViewModel() { Day = DateTime.Now.Date };
+            TaskViewModel task = new TaskViewModel() { Date = DateTime.Now.Date };
             tasks.Insert(0, task);
             selectedTask = task;
         }
@@ -63,10 +63,10 @@ namespace TODOGO
             {
                 if (task.IsComplete)
                 {
-                    if (!finishedDate.ContainsKey(task.Day))
-                        finishedDate.Add(task.Day, 1);
+                    if (!finishedDate.ContainsKey(task.Date))
+                        finishedDate.Add(task.Date, 1);
                     else
-                        finishedDate[task.Day]++;
+                        finishedDate[task.Date]++;
                 }
                
             }
@@ -77,10 +77,11 @@ namespace TODOGO
         {
             if (tasks == null)
                 return new DateTime[] { DateTime.Now};
+
             List<DateTime> result = new List<DateTime>();
             foreach (TaskViewModel task in tasks)
-                if (task.IsComplete && !result.Contains(task.Day))
-                    result.Insert(0,task.Day);
+                if (task.IsComplete && !result.Contains(task.Date))
+                    result.Insert(0,task.Date);
 
 
 
@@ -91,10 +92,18 @@ namespace TODOGO
         public static int[] GetTasksCount(ObservableCollection<TaskViewModel> tasks)
         {
             List<int> result = new List<int>();
-            foreach (int item in GetCountFinishedTasks(tasks))
-                result.Add(item);
+            for (int i = 1; i <= GetCountFinishedTasks(tasks).Max(); i++)
+                result.Add(i);
 
             return result.ToArray();
+        }
+
+        public static ObservableCollection<TaskViewModel> SetUncompletedTasks(ObservableCollection<TaskViewModel> tasks)
+        {
+            foreach (TaskViewModel task in tasks)
+                if (task.TaskType == TaskTypes.EveryDay && task.CompletedDate.Date != DateTime.Now.Date)
+                    task.IsComplete = false;
+            return tasks;
         }
     }
 }

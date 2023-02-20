@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Globalization;
+using DevExpress.Mvvm.Native;
 
 namespace TODOGO
 {
@@ -106,9 +107,13 @@ namespace TODOGO
             {
                 return new DelegateCommand(() =>
                 {
-                    TaskViewModel task = new TaskViewModel() {Day=DateTime.Now.Date};
+                    TaskViewModel task = new TaskViewModel() { Date = DateTime.Now.Date };
                     Tasks.Insert(0, task);
                     CalendarVM.SelectedTask = task;
+                    Tasks.ClearEmptyTask(CalendarVM.SelectedTask);
+                    
+
+
                 });
 
             }
@@ -132,6 +137,9 @@ namespace TODOGO
         public AppViewModel()
         {
             Tasks = SavesMenager.ReadFromJsonFile<ObservableCollection<TaskViewModel>>();
+            Tasks = Tasks.OrderBy(x => x.Date).Reverse().ToObservableCollection();
+            Tasks = TaskManager.SetUncompletedTasks(Tasks);
+
 
             HomeVM = new HomeViewModel(Tasks);
             CalendarVM = new CalendarViewModel();
