@@ -33,7 +33,7 @@ namespace TODOGO
 
         public static SettingViewModel ReadFromJsonFileSetting()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(filePath+Setting))
                 SaveToJsonFile<SettingViewModel>(new SettingViewModel() , Setting);
             string json = File.ReadAllText(filePath+Setting);
             return JsonConvert.DeserializeObject<SettingViewModel>(json);

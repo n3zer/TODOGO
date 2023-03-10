@@ -25,7 +25,7 @@
             <Label Content="Main:" 
                    FontSize="30" 
                    FontFamily="Bahnschrift SemiBold"/>
-            <CheckBox Content="Auto Save" IsChecked="{Binding SettingVM.AutoSaving}"/>
+            <CheckBox Content="Auto Save" IsChecked="{Binding Setting.AutoSaving}"/>
         </StackPanel>
     </Grid>
 </Page>

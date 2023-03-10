@@ -139,9 +139,8 @@ namespace TODOGO
                     if (Setting.AutoSaving)
                     {
                         Saver.SaveToJsonFile(Tasks.ClearEmptyTask(), Saver.Task);
-                        Saver.SaveToJsonFile(Setting, Saver.Setting);
-
                     }
+                    Saver.SaveToJsonFile(Setting, Saver.Setting);
                 });
 
             }
