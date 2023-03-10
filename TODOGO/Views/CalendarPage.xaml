@@ -98,7 +98,7 @@
             <Grid Grid.Row="1">
                 <ListBox Background="Transparent" BorderThickness="0"
                          ItemsSource="{Binding CalendarVM.FilterTasks}"
-                         SelectedIndex="1"
+                         SelectedIndex="0"
                          SelectedItem="{Binding CalendarVM.SelectedTask}" 
                          SelectionMode="Single">
                     <i:Interaction.Triggers>

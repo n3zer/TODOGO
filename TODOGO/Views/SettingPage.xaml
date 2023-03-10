@@ -26,6 +26,16 @@
                    FontSize="30" 
                    FontFamily="Bahnschrift SemiBold"/>
             <CheckBox Content="Auto Save" IsChecked="{Binding Setting.AutoSaving}"/>
+            <StackPanel>
+                <Label Content="Telegram bot token"/>
+                <TextBox Height="30" Text="{Binding Setting.TelegramToken}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="User id"/>
+                <TextBox Height="30" Text="{Binding Setting.UserTelegramId}"/>
+            </StackPanel>
         </StackPanel>
+
+        
     </Grid>
 </Page>

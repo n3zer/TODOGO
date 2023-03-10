@@ -14,5 +14,5 @@ public class SettingViewModel: ViewModelBase
     [JsonProperty("UserTelegramI")]
     public string UserTelegramId { get; set; }
     [JsonProperty("TelegramToken")]
-    public string TelegramToken { get; set; } = "6044484605:AAHCjCnvgcmReAG1rImUqGc0tQot1eWfs3o";
+    public string TelegramToken { get; set; }
 }

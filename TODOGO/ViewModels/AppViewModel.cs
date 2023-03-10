@@ -78,6 +78,7 @@ namespace TODOGO
                 return new DelegateCommand(() =>
                 {
                     Tasks.ClearEmptyTask(CalendarVM.SelectedTask);
+
                 });
 
             }
@@ -120,9 +121,6 @@ namespace TODOGO
                     Tasks.Insert(0, task);
                     CalendarVM.SelectedTask = task;
                     Tasks.ClearEmptyTask(CalendarVM.SelectedTask);
-                    
-
-
                 });
 
             }
@@ -170,7 +168,7 @@ namespace TODOGO
             CalendarVM.FilterTasks = Tasks;
             CalendarVM.SelectedDate = DateTime.Now;
 
-            TelegramBot.Bot = new(Setting.TelegramToken);
+            TelegramBot.Bot = new(Setting.TelegramToken, Setting.UserTelegramId);
 
             _appPages = new Dictionary<string, Page>
             {

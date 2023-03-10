@@ -21,12 +21,25 @@ namespace TODOGO
         {
             if (tasks != null)
                 foreach (TaskViewModel item in tasks)
+                {
                     if (string.IsNullOrWhiteSpace(item.Name)
-                    && item != selectedTask)
+                        && item != selectedTask)
                     {
                         tasks.Remove(item);
                         return;
                     }
+                    if (item != selectedTask)
+                    {
+                        item.CanNotified = true;
+                        return;
+                    }
+                    else
+                    {
+                        item.CanNotified = false;
+                    }
+                }
+                    
+
         }
 
         public static ObservableCollection<TaskViewModel> ClearEmptyTask(this ObservableCollection<TaskViewModel> tasks)
@@ -124,9 +137,10 @@ namespace TODOGO
                     if (task.Time.TimeOfDay <= DateTime.Now.TimeOfDay &&
                         !string.IsNullOrWhiteSpace(task.Name)
                         && !task.IsComplete && task.CompletedDate.Date != DateTime.Now.Date
-                        && !task.IsNotified && task.Name.Length > 2)
+                        && !task.IsNotified && task.Name.Length > 2
+                        && task.CanNotified)
                     {
-                        _ = TelegramBot.Bot.SendMessageAsync(task.Name);
+                        _ = TelegramBot.Bot.SendMessageAsync(task);
                         task.IsNotified = true;
 
                     }

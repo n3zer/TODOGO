@@ -58,6 +58,9 @@ namespace TODOGO
         [JsonProperty("IsNotified")]
         public bool IsNotified { get; set; }
 
+        [JsonProperty("CanNotified")]
+        public bool CanNotified { get; set; }
+
         [JsonProperty("IsComplete")]
         public bool IsComplete { get; set; }
 
