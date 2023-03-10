@@ -20,9 +20,10 @@ namespace TODOGO
     /// </summary>
     public partial class SettingPage : Page
     {
-        public SettingPage()
+        public SettingPage(AppViewModel dc)
         {
             InitializeComponent();
+            DataContext = dc;
         }
     }
 }

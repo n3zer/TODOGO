@@ -81,6 +81,7 @@
 
             <ListBox BorderThickness="0" 
                      x:Name="TaskListBox"
+                     
                      ItemsSource="{Binding HomeVM.Tasks, UpdateSourceTrigger=PropertyChanged}" Margin="15,60,15,0" 
                      VerticalContentAlignment="Stretch"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
@@ -158,14 +159,18 @@
                              Value="{x:Static sys:DateTime.Today}">
                                 <Setter Property="ListBoxItem.Visibility" Value="Visible"/>
                             </DataTrigger>
-                            
-                            
-                            
+
                             <DataTrigger Binding="{Binding TaskType}"
                              Value="{x:Static local:TaskTypes.EveryDay}">
                                 <Setter Property="ListBoxItem.Visibility" Value="Visible"/>
                             </DataTrigger>
-                            
+
+                            <DataTrigger Binding="{Binding TaskType}"
+                             Value="{x:Static local:TaskTypes.SelectedDay}">
+                                <Setter Property="ListBoxItem.Visibility" Value="Visible"/>
+                            </DataTrigger>
+
+
                             <DataTrigger Binding="{Binding IsComplete}"
                              Value="true">
                                 <Setter Property="ListBoxItem.Visibility" Value="Collapsed"/>

@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 
@@ -16,7 +17,8 @@ namespace TODOGO
 
         public TaskViewModel SelectedTask { get; set; }
 
-        public EnumDescriptionConverter DescriptionConverter { get; set; } = new EnumDescriptionConverter();
+
+        
 
         public CalendarViewModel() 
         {

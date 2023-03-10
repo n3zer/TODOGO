@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Linq;
-using System.ComponentModel;
 using System;
 using System.Windows;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Globalization;
+using System.Linq;
+using Microsoft.Win32;
 using DevExpress.Mvvm.Native;
+using System.Threading.Tasks;
 
 namespace TODOGO
 {
@@ -25,10 +23,7 @@ namespace TODOGO
             {
                 return new DelegateCommand<string>((x) =>
                 {
-                    if (_appPages.Keys.Contains(x))
-                    {
-                        CurrentPage = _appPages[x];
-                    }
+                    CurrentPage = _appPages[x];
                 });
 
             }
@@ -37,17 +32,18 @@ namespace TODOGO
        
 
         public ObservableCollection<TaskViewModel> Tasks { get; set; }
+        public SettingViewModel Setting { get; set; }
 
 
         // pages vm
         public HomeViewModel HomeVM { get; set; }
         public CalendarViewModel CalendarVM { get; set; }
+        
 
 
         
         
 
-        // для выноса за предела класса 
         public ICommand DisableFilterTasksDate
         {
             get
@@ -101,6 +97,19 @@ namespace TODOGO
             }
         }
 
+
+        public ICommand SetDay
+        {
+            get
+            {
+                return new DelegateCommand<DayOfWeek>((x) =>
+                {
+                    MessageBox.Show(CalendarVM.SelectedTask.DayOfWeeks[x].ToString());
+                });
+
+            }
+        }
+
         public ICommand AddTask
         {
             get
@@ -118,6 +127,8 @@ namespace TODOGO
 
             }
         }
+        
+        
 
         public ICommand SaveTasks
         {
@@ -125,36 +136,47 @@ namespace TODOGO
             {
                 return new DelegateCommand(() =>
                 {
-                    SavesMenager.SaveToJsonFile(TaskManager.ClearEmptyTask(Tasks));
+                    if (Setting.AutoSaving)
+                    {
+                        Saver.SaveToJsonFile(Tasks.ClearEmptyTask(), Saver.Task);
+                        Saver.SaveToJsonFile(Setting, Saver.Setting);
+
+                    }
                 });
 
             }
         }
 
 
-
-
+        TickTask _tick;
         public AppViewModel()
         {
-            Tasks = SavesMenager.ReadFromJsonFile<ObservableCollection<TaskViewModel>>();
+            Setting = Saver.ReadFromJsonFileSetting();
+            Tasks = Saver.ReadFromJsonFile().ToObservableCollection();
             Tasks = Tasks.OrderBy(x => x.Date).Reverse().ToObservableCollection();
             Tasks = TaskManager.SetUncompletedTasks(Tasks);
+            
 
+            _tick = new()
+            {
+                Tasks = Tasks
+            };
 
             HomeVM = new HomeViewModel(Tasks);
             CalendarVM = new CalendarViewModel();
+            
 
             HomeVM.Tasks = Tasks;
             
             CalendarVM.FilterTasks = Tasks;
             CalendarVM.SelectedDate = DateTime.Now;
 
-            
+            TelegramBot.Bot = new(Setting.TelegramToken);
 
             _appPages = new Dictionary<string, Page>
             {
                 {"Home",  new HomePage(this)},
-                {"Settings",  new SettingPage()},
+                {"Settings",  new SettingPage(this)},
                 {"Tasks",  new TasksPage()},
                 {"Calendar",  new CalendarPage(this)}
             };

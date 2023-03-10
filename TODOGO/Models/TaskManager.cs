@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
+
 
 namespace TODOGO
 {
@@ -32,7 +29,7 @@ namespace TODOGO
                     }
         }
 
-        public static ObservableCollection<TaskViewModel> ClearEmptyTask(ObservableCollection<TaskViewModel> tasks)
+        public static ObservableCollection<TaskViewModel> ClearEmptyTask(this ObservableCollection<TaskViewModel> tasks)
         {
             ObservableCollection<TaskViewModel> result = new ObservableCollection<TaskViewModel>();
             if (tasks != null)
@@ -84,7 +81,6 @@ namespace TODOGO
                     result.Insert(0,task.Date);
 
 
-
             return result.OrderByDescending(d => d).Reverse().ToArray();
         }
 
@@ -101,9 +97,44 @@ namespace TODOGO
         public static ObservableCollection<TaskViewModel> SetUncompletedTasks(ObservableCollection<TaskViewModel> tasks)
         {
             foreach (TaskViewModel task in tasks)
+            {
                 if (task.TaskType == TaskTypes.EveryDay && task.CompletedDate.Date != DateTime.Now.Date)
+                {
                     task.IsComplete = false;
+                    task.IsNotified = false;
+                }
+                else if (task.TaskType == TaskTypes.SelectedDay && task.CompletedDate.Date != DateTime.Now.Date && task.DayOfWeeks[DateTime.Now.DayOfWeek])
+                {
+                    task.IsComplete = false;
+                    task.IsNotified= false;
+                }
+                    
+            }
+                
+
             return tasks;
         }
+
+        public static void Notification(ObservableCollection<TaskViewModel> tasks)
+        {
+            if (tasks != null)
+            {
+                foreach (TaskViewModel task in tasks)
+                {
+                    if (task.Time.TimeOfDay <= DateTime.Now.TimeOfDay &&
+                        !string.IsNullOrWhiteSpace(task.Name)
+                        && !task.IsComplete && task.CompletedDate.Date != DateTime.Now.Date
+                        && !task.IsNotified && task.Name.Length > 2)
+                    {
+                        _ = TelegramBot.Bot.SendMessageAsync(task.Name);
+                        task.IsNotified = true;
+
+                    }
+                }
+            }
+        }
+        
+
+
     }
 }

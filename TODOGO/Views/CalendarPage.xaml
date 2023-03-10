@@ -125,7 +125,7 @@
                                     FontSize="25">
                                 </TextBlock>
                             </Grid>
-                            
+
                         </DataTemplate>
                     </ListBox.ItemTemplate>
 
@@ -220,6 +220,75 @@
                         </TextBox.Text>
                     </TextBox>
 
+
+                    <StackPanel x:Name="DayWeekPanel">
+                        <Label Style="{DynamicResource ChangeLabel}" Content="Дни:" />
+                        <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Left">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="FontFamily" Value="Bahnschrift SemiCondensed"/>
+                                    <Setter Property="FontSize" Value="30"/>
+
+                                </Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Height" Value="60"/>
+                                    <Setter Property="Margin" Value="4,0,4,0"/>
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <StackPanel>
+                                <TextBlock Text="П" />
+                                <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.DayOfWeeks[Monday]}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="В" />
+                                <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.DayOfWeeks[Tuesday]}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="С" />
+                                <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.DayOfWeeks[Wednesday]}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Ч" />
+                                <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.DayOfWeeks[Thursday]}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="П" />
+                                <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.DayOfWeeks[Friday]}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="С" />
+                                <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.DayOfWeeks[Saturday]}"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="В" />
+                                <CheckBox IsChecked="{Binding CalendarVM.SelectedTask.DayOfWeeks[Sunday]}"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CalendarVM.SelectedTask.TaskType}" 
+                                             Value="{x:Static local:TaskTypes.SelectedDay}">
+                                        <Setter Property="Visibility"  
+                                            Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+
+
                     <StackPanel x:Name="DateSetPanel">
                         <Label Style="{DynamicResource ChangeLabel}" Content="Дата:" />
                         <DatePicker SelectedDate="{Binding CalendarVM.SelectedTask.Date}"
@@ -238,7 +307,7 @@
                         </StackPanel.Style>
                     </StackPanel>
 
-                
+
 
                     <Label Style="{DynamicResource ChangeLabel}" Content="Время:" />
                     <materialDesign:TimePicker Name="timePicker" Is24Hours="True"
@@ -268,7 +337,7 @@
                     <Button Content="Удалить" VerticalAlignment="Bottom" Height="40"
                             Command="{Binding RemoveTask}"
                             Style="{DynamicResource ChangeButton}"/>
-                   
+
                 </StackPanel>
 
 

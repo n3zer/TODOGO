@@ -10,55 +10,48 @@ using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using System.Collections.Generic;
 
-namespace TODOGO
+namespace TODOGO;
+
+public class HomeViewModel:ViewModelBase
 {
-    public class HomeViewModel:ViewModelBase
+    public ObservableCollection<TaskViewModel> Tasks { get; set; }
+        
+    public ISeries[] Series { get; set; } 
+    public Axis[] AxesDate { get; set; }
+    public List<Axis> AxesCount { get; set; }
+    public int[] CountFineshedTasks { get; set; }
+    public HomeViewModel(ObservableCollection<TaskViewModel> tasks) 
     {
-        public ObservableCollection<TaskViewModel> Tasks { get; set; }
-
-
-
-
-        public ISeries[] Series { get; set; } 
-        public Axis[] AxesDate { get; set; }
-        public List<Axis> AxesCount { get; set; }
-        public int[] CountFineshedTasks { get; set; }
-        public HomeViewModel(ObservableCollection<TaskViewModel> tasks) 
+        Tasks = tasks;
+        CountFineshedTasks = TaskManager.GetCountFinishedTasks(tasks);
+        Series = new ISeries[]
         {
-            Tasks = tasks;
-            CountFineshedTasks = TaskManager.GetCountFinishedTasks(tasks);
-            Series = new ISeries[]
+            new LineSeries<int>
             {
-                new LineSeries<int>
-                {
+                Values = CountFineshedTasks,
+                Stroke = new SolidColorPaint(SKColors.Red) { StrokeThickness = 4 },
+                GeometryStroke = new SolidColorPaint(SKColors.OrangeRed) { StrokeThickness = 4 },
+                Fill = null,
+                Name = "Выполнено"
+            }
+        };
 
-                    Values = CountFineshedTasks,
-                    Stroke = new SolidColorPaint(SKColors.Red) { StrokeThickness = 4 },
-                    GeometryStroke = new SolidColorPaint(SKColors.OrangeRed) { StrokeThickness = 4 },
-                    Fill = null,
-                    Name = "Выполнено",
-                }
-            };
-
-            AxesDate = new Axis[]
+        AxesDate = new Axis[]
+        {
+            new Axis
             {
-                new Axis
-                {
-                    Labels = TaskManager.GetDateWithFinishedTasks(tasks).Select(x => x.ToString("d.MM.yyyy")).ToArray()
-                }
-            };
+                Labels = TaskManager.GetDateWithFinishedTasks(tasks).Select(x => x.ToString("d.MM.yyyy")).ToArray()
+            }
+        };
 
-            AxesCount = new List<Axis>
-            {
-                 new Axis
-                 {
-                        MinStep= 1
-                 }
-
-            };
-
-
-
-        }
+        AxesCount = new List<Axis>
+        {
+             new Axis
+             {
+                    MinStep= 1
+             }
+        };
+        
     }
 }
+
