@@ -86,28 +86,7 @@
 					                   FontFamily="Bahnschrift Light SemiCondensed" 
 					                   FontSize="30" 
 					                   TextWrapping="Wrap"
-					                   VerticalAlignment="Bottom" Height="39"/>    
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-                <!--Tasks-->
-                <Button Style="{StaticResource SideBtnStyle}"
-                        Background="Transparent"
-                        Command="{Binding ChangePage}" CommandParameter="Tasks">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal"
-                                    Style="{StaticResource SideBtnStackStyle}"
-							        Width="230">
-                            <materialDesign:PackIcon Kind="CheckBox" Height="45" Width="30"
-                                                     Foreground="White"/>
-                            <TextBlock Margin="10,0,0,0"
-					                   Text="Задачи" 
-					                   Foreground="White" 
-					                   FontFamily="Bahnschrift Light SemiCondensed" 
-					                   FontSize="30" 
-					                   TextWrapping="Wrap"
 					                   VerticalAlignment="Bottom" Height="39"/>
-                            
                         </StackPanel>
                     </Button.Content>
                 </Button>

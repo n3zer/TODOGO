@@ -80,16 +80,6 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </CheckBox>
-                        <CheckBox VerticalAlignment="Center" 
-                                  Content="Не выполненные"
-                                  Foreground="Black"
-                                  IsChecked="{Binding CalendarVM.UnfulfilledOnly}" >
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding DisableFilterTasksDate}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </CheckBox>
                     </MenuItem>
                 </Menu>
             </Grid>
